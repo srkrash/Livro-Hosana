@@ -421,53 +421,47 @@ nav a:hover::after {
   font-size: 1rem;
 }
 
-.topics-grid {
+.topics-index {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--spacing-md);
+  column-gap: var(--spacing-lg);
+  row-gap: 0;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 @media (min-width: 768px) {
-  .topics-grid {
+  .topics-index {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-.topic-card {
-  background-color: var(--color-white);
-  padding: var(--spacing-md);
-  border-radius: 6px;
-  box-shadow: var(--shadow-soft);
-  border: 1px solid var(--color-border-light);
-  transition: var(--transition-normal);
+.index-item {
   display: flex;
-  gap: var(--spacing-sm);
+  align-items: baseline;
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1px dashed var(--color-border-light);
 }
 
-.topic-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-medium);
-  border-color: var(--color-gold-discrete);
-}
-
-.topic-number {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
-  font-weight: 700;
+.index-item::before {
+  content: "—";
   color: var(--color-gold-discrete);
-  line-height: 1;
+  margin-right: var(--spacing-sm);
+  font-weight: 700;
+  flex-shrink: 0;
 }
 
-.topic-content h3 {
-  font-size: 1.1rem;
-  margin-bottom: var(--spacing-xs);
+.index-item p {
+  font-size: 0.95rem;
+  color: var(--color-warm-gray);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.index-item strong {
+  font-family: var(--font-sans);
+  font-weight: 600;
   color: var(--color-blue-deep);
-}
-
-.topic-content p {
-  font-size: 0.9rem;
-  color: var(--color-warm-gray-light);
-  line-height: 1.5;
 }
 
 /* Seção 4: Público-Alvo */
@@ -673,60 +667,185 @@ nav a:hover::after {
   border-bottom: 1px solid var(--color-border-light);
 }
 
-.testimonial-container {
-  max-width: 800px;
-  margin: 0 auto;
-  position: relative;
-  padding: var(--spacing-md) 0;
+.social-proof-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+  align-items: stretch;
 }
 
-blockquote {
+@media (min-width: 992px) {
+  .social-proof-grid {
+    grid-template-columns: 0.8fr 1.2fr;
+  }
+}
+
+.testimonial-card {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border-light);
+  border-radius: 8px;
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonial-card:hover {
+  box-shadow: var(--shadow-medium);
+}
+
+.testimonial-card.compact {
+  border-left: 4px solid var(--color-gold-discrete);
+  background-color: var(--color-off-white);
+  justify-content: center;
+  padding: var(--spacing-lg) var(--spacing-md);
+}
+
+.testimonial-card.compact blockquote {
   font-family: var(--font-serif);
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-style: italic;
   font-weight: 500;
-  text-align: center;
-  color: var(--color-blue-deep);
-  line-height: 1.5;
+  line-height: 1.6;
   margin-bottom: var(--spacing-md);
+  text-align: left;
+  color: var(--color-blue-deep);
   position: relative;
+  z-index: 2;
 }
 
-blockquote::before {
+.testimonial-card.compact blockquote::before {
   content: '“';
-  font-size: 5rem;
+  font-size: 6rem;
   position: absolute;
-  top: -45px;
-  left: -20px;
-  color: var(--color-border-light);
-  line-height: 1;
+  top: -30px;
+  left: -10px;
+  color: rgba(197, 160, 89, 0.15); /* Dourado discreto translúcido */
   font-family: var(--font-serif);
-}
-
-blockquote::after {
-  content: '”';
-  font-size: 5rem;
-  position: absolute;
-  bottom: -90px;
-  right: -20px;
-  color: var(--color-border-light);
   line-height: 1;
-  font-family: var(--font-serif);
+  z-index: -1;
 }
 
-.testimonial-author {
-  text-align: center;
-  font-weight: 600;
-  color: var(--color-warm-gray);
-  font-size: 0.95rem;
+.testimonial-card.detailed {
+  background-color: var(--color-white);
 }
 
-.testimonial-author span {
-  font-weight: 400;
-  color: var(--color-warm-gray-light);
+.testimonial-card-header {
+  border-bottom: 1px solid var(--color-border-light);
+  padding-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+@media (min-width: 576px) {
+  .testimonial-card-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+}
+
+.testimonial-card-header h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-blue-deep);
+  margin-bottom: 0;
+}
+
+.testimonial-meta {
+  margin-top: var(--spacing-sm);
+}
+
+.testimonial-card-header .testimonial-meta {
+  margin-top: 0;
+  text-align: right;
+}
+
+.testimonial-meta strong {
   display: block;
+  color: var(--color-blue-deep);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.testimonial-meta span {
+  display: block;
+  color: var(--color-warm-gray-light);
   font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   margin-top: 2px;
+}
+
+/* Abas interativas */
+.testimonial-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border-light);
+  padding-bottom: var(--spacing-sm);
+}
+
+.tab-btn {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-warm-gray-light);
+  background: var(--color-off-white);
+  border: 1px solid var(--color-border-light);
+  border-radius: 20px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: var(--transition-normal);
+}
+
+.tab-btn:hover {
+  background-color: var(--color-blue-light);
+  color: var(--color-blue-deep);
+  border-color: var(--color-blue-deep);
+}
+
+.tab-btn.active {
+  background-color: var(--color-blue-deep);
+  color: var(--color-white);
+  border-color: var(--color-blue-deep);
+  box-shadow: 0 4px 10px rgba(22, 53, 77, 0.15);
+}
+
+.testimonial-tabs-content {
+  position: relative;
+  min-height: 180px;
+}
+
+.tab-pane {
+  display: none;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--color-warm-gray);
+}
+
+.tab-pane.active {
+  display: block;
+  animation: tabFadeIn 0.5s ease forwards;
+}
+
+@keyframes tabFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Seção 8: Lançamento Evento */

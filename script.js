@@ -64,4 +64,26 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // 3. Gerenciamento de Abas para Prova Social (Depoimento de Ana Bassôa)
+  const tabButtons = document.querySelectorAll('.tab-btn');
+  const tabPanes = document.querySelectorAll('.tab-pane');
+
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Remove a classe active de todos os botões e painéis de abas
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+      tabPanes.forEach(pane => pane.classList.remove('active'));
+
+      // Ativa o botão clicado
+      button.classList.add('active');
+
+      // Ativa o painel de conteúdo correspondente ao data-tab
+      const targetTabId = button.getAttribute('data-tab');
+      const targetPane = document.getElementById(targetTabId);
+      if (targetPane) {
+        targetPane.classList.add('active');
+      }
+    });
+  });
 });
