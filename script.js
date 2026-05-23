@@ -65,25 +65,86 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 3. Gerenciamento de Abas para Prova Social (Depoimento de Ana Bassôa)
-  const tabButtons = document.querySelectorAll('.tab-btn');
-  const tabPanes = document.querySelectorAll('.tab-pane');
+  // 3. Carrossel de Depoimentos (Prova Social)
+  const slides = document.querySelectorAll('.carousel-slide');
+  const dots = document.querySelectorAll('.dot');
+  const btnPrev = document.querySelector('.carousel-control.prev');
+  const btnNext = document.querySelector('.carousel-control.next');
+  const carouselContainer = document.querySelector('.testimonial-carousel-container');
 
-  tabButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      // Remove a classe active de todos os botões e painéis de abas
-      tabButtons.forEach(btn => btn.classList.remove('active'));
-      tabPanes.forEach(pane => pane.classList.remove('active'));
+  let currentSlide = 0;
+  let autoplayTimer = null;
+  const autoplayInterval = 8000; // Tempo em ms (8 segundos)
 
-      // Ativa o botão clicado
-      button.classList.add('active');
+  const showSlide = (index) => {
+    // Tratamento de limites (Loop)
+    if (index >= slides.length) {
+      currentSlide = 0;
+    } else if (index < 0) {
+      currentSlide = slides.length - 1;
+    } else {
+      currentSlide = index;
+    }
 
-      // Ativa o painel de conteúdo correspondente ao data-tab
-      const targetTabId = button.getAttribute('data-tab');
-      const targetPane = document.getElementById(targetTabId);
-      if (targetPane) {
-        targetPane.classList.add('active');
-      }
+    // Ocultar todos os slides e remover classe ativa dos pontos
+    slides.forEach(slide => slide.classList.remove('active'));
+    dots.forEach(dot => dot.classList.remove('active'));
+
+    // Exibir slide atual e ativar ponto correspondente
+    slides[currentSlide].classList.add('active');
+    if (dots[currentSlide]) {
+      dots[currentSlide].classList.add('active');
+    }
+  };
+
+  const startAutoplay = () => {
+    stopAutoplay();
+    autoplayTimer = setInterval(() => {
+      showSlide(currentSlide + 1);
+    }, autoplayInterval);
+  };
+
+  const stopAutoplay = () => {
+    if (autoplayTimer) {
+      clearInterval(autoplayTimer);
+      autoplayTimer = null;
+    }
+  };
+
+  // Clique no botão "Próximo"
+  if (btnNext) {
+    btnNext.addEventListener('click', () => {
+      showSlide(currentSlide + 1);
+      startAutoplay(); // Reinicia o timer para evitar transição rápida logo após clique manual
+    });
+  }
+
+  // Clique no botão "Anterior"
+  if (btnPrev) {
+    btnPrev.addEventListener('click', () => {
+      showSlide(currentSlide - 1);
+      startAutoplay();
+    });
+  }
+
+  // Clique nos indicadores (Pontos)
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const slideIndex = parseInt(dot.getAttribute('data-slide'), 10);
+      showSlide(slideIndex);
+      startAutoplay();
     });
   });
+
+  // Pausar autoplay ao passar o mouse por cima
+  if (carouselContainer) {
+    carouselContainer.addEventListener('mouseenter', stopAutoplay);
+    carouselContainer.addEventListener('mouseleave', startAutoplay);
+  }
+
+  // Inicializa o Carrossel
+  if (slides.length > 0) {
+    showSlide(0);
+    startAutoplay();
+  }
 });
