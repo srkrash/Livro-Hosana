@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# URL do sitemap para ajudar os indexadores (substitua pelo domínio real depois)
+Sitemap: https://www.seudominio.com.br/sitemap.xml
